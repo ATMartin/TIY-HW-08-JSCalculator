@@ -1,0 +1,76 @@
+@import 'bourbon/bourbon';
+$visual-grid: true;
+@import 'neat/neat';
+
+* { box-sizing: border-box; }
+
+.container {
+  @include outer-container();
+}
+
+.display {
+  @include span-columns(12);
+  @include omega();
+}
+
+.scientific {
+  @include shift(2);
+  @include span-columns(3);
+}
+
+.memory {
+  @include span-columns(1);
+}
+
+.standard {
+  @include span-columns(4);
+}
+
+.special-chars {
+  @include span-columns(1);
+  @include omega();
+}
+
+
+/** STYLES **/
+.display {
+  width: 100%;
+  position: relative;
+  .display-text {
+    height: 100px;
+    width: 100%;
+    align: right;
+    text-align: right;
+    font-size: 40px;
+  }
+  .display-hist {
+    position: absolute;
+    top: 0;
+    right: 5px;
+    margin-top: 2px;
+    text-align: right;
+    font-size: 12px;
+  }
+}
+
+.btn-quarter,
+.btn-third,
+.btn-whole {
+  display: inline-block;
+  height: 100px;
+  width: 100%;
+  line-height: 100px;
+  text-align: center;
+  font-size: 20px;
+  font-family: $helvetica;
+}
+
+.btn-quarter {
+  width: 25%;
+}
+.btn-third {
+  width: 33.333%;
+}
+.btn-whole {
+  width: 100%;
+}
