@@ -13,6 +13,25 @@
       $btnClear = document.getElementsByClassName('clear')[0];
       $btnInverse = document.getElementsByClassName('inverse')[0];
       $btnDot = document.getElementsByClassName('dot')[0];
+      $btnEuler = document.getElementsByClassName('euler')[0];
+      $btnPi = document.getElementsByClassName('pi')[0];
+      $btnPhi = document.getElementsByClassName('phi')[0];
+      $btnAvogadro = document.getElementsByClassName('avogadro')[0];
+      $btnSin = document.getElementsByClassName('sin')[0];
+      $btnCos = document.getElementsByClassName('cos')[0];
+      $btnTan = document.getElementsByClassName('tan')[0];
+      $btnSinh = document.getElementsByClassName('sinh')[0];
+      $btnCosh = document.getElementsByClassName('cosh')[0];
+      $btnTanh = document.getElementsByClassName('tanh')[0];
+      $btnLog10 = document.getElementsByClassName('log10')[0];
+      $btnLn = document.getElementsByClassName('ln')[0];
+      $btnLogX = document.getElementsByClassName('logx')[0];
+      $btnSqRt = document.getElementsByClassName('rt2')[0];
+      $btnCubeRt = document.getElementsByClassName('rt3')[0];
+      $btnXRt = document.getElementsByClassName('rtx')[0];
+      $btnExp2 = document.getElementsByClassName('exp2')[0];
+      $btnExp3 = document.getElementsByClassName('exp3')[0];
+      $btnExpX = document.getElementsByClassName('expx')[0];
 
   //=================== CALCULATION FUNCTIONS ==========================
   var calculator = {};
@@ -31,7 +50,7 @@
       if (!this.heldValue) { this.heldValue = this.currentValue; }
       this.addToDisplayHist(this.currentValue);
       this.queuedOperation = op.target.getAttribute('data-op');
-      this.addToDisplayHist(op.target.textContent);
+      this.addToDisplayHist('(' + op.target.textContent + ')');
       console.log(this.queuedOperation);
       $display.value = "";
   };
@@ -50,18 +69,29 @@
       case "divide":
         this.currentTotal = this.myDivide(this.heldValue, this.currentValue);
       break;
+      case "exponent":
+        this.currentTotal = this.myExpX(this.heldValue, this.currentValue);
+        break;
+      case "log":
+        this.currentTotal = this.myLogX(this.currentValue, this.heldValue);
+        break;
+      case "root":
+        this.currentTotal = this.myRootX(this.heldValue, this.currentValue);
+        break;
       default:
       break;
     }
     this.heldValue = this.currentTotal;
     this.queuedOperation = null;
-    console.log(this.currentTotal);
   };
 
   calculator.myAdd = function(a, b) { return a + b; };
   calculator.mySubtract = function(a, b) { return a - b; };
   calculator.myMultiply = function(a, b) { return a * b; };
   calculator.myDivide = function(a, b) { return a / b; };
+  calculator.myExpX = function(a, b) { return Math.pow(a, b); }; // a ^ b
+  calculator.myLogX = function(a, b) { return Math.log(b) / Math.log(a); }; //log(base a)b
+  calculator.myRootX = function(a, b) { return Math.pow(b, 1/a); }; //a(root)b
 
 
   //--- Display / Output
@@ -95,6 +125,48 @@
   calculator.addDot = function() {
     $display.value += '.';
   };
+  calculator.addEulersNumber = function() {
+    this.showNum(Math.E);
+  };
+  calculator.addPi = function() {
+    this.showNum(Math.PI);
+  };
+  calculator.addPhi = function() {
+    this.showNum(1.6180339887);
+  };
+  calculator.addAvogadro = function() {
+    alert("That's a BIIIG number. Maybe try something else.");
+  };
+  calculator.doSin = function() {
+    this.showNum(Math.sin(this.currentValue));
+  };
+  calculator.doCos = function() {
+    this.showNum(Math.cos(this.currentValue));
+  };
+  calculator.doTan = function() {
+    this.showNum(Math.tan(this.currentValue));
+  };
+  calculator.doHSin = function() {
+    this.showNum(Math.sinh(this.currentValue));
+  };
+  calculator.doHCos = function() {
+    this.showNum(Math.cosh(this.currentValue));
+  };
+  calculator.doHTan = function() {
+    this.showNum(Math.tanh(this.currentValue));
+  };
+  calculator.doLog10 = function() {
+    this.showNum(Math.log(this.currentValue) / Math.log(10));
+  };
+  calculator.doLn = function() {
+    this.showNum(Math.log(this.currentValue));
+  };
+  calculator.doRoot = function(n) {
+    this.showNum(Math.pow(this.currentValue, 1/n));
+  };
+  calculator.doExp = function(n) {
+    this.showNum(Math.pow(this.currentValue, n));
+  };
 
   //===================== EVENT LISTENERS ==============================
   $display.addEventListener('input', function(e) { });
@@ -111,6 +183,21 @@
   $btnEquals.addEventListener('click', function(e) { calculator.showTotal(); });
   $btnInverse.addEventListener('click', function(e) { calculator.posNeg(); });
   $btnDot.addEventListener('click', function(e) { calculator.addDot(); });
-
+  $btnEuler.addEventListener('click', function(e) {calculator.addEulersNumber(); });
+  $btnPi.addEventListener('click', function(e) { calculator.addPi(); });
+  $btnPhi.addEventListener('click', function(e) { calculator.addPhi(); });
+  $btnAvogadro.addEventListener('click', function(e) { calculator.addAvogadro(); });
+  $btnSin.addEventListener('click', function(e) { calculator.doSin(); });
+  $btnCos.addEventListener('click', function(e) { calculator.doCos(); });
+  $btnTan.addEventListener('click', function(e) { calculator.doTan(); });
+  $btnSinh.addEventListener('click', function(e) { calculator.doHSin(); });
+  $btnCosh.addEventListener('click', function(e) { calculator.doHCos(); });
+  $btnTanh.addEventListener('click', function(e) { calculator.doHTan(); });
+  $btnLog10.addEventListener('click', function(e) { calculator.doLog10(); });
+  $btnLn.addEventListener('click', function(e) { calculator.doLn(); });
+  $btnSqRt.addEventListener('click', function(e) { calculator.doRoot(2); });
+  $btnCubeRt.addEventListener('click', function(e) { calculator.doRoot(3); });
+  $btnExp2.addEventListener('click', function(e) { calculator.doExp(2); });
+  $btnExp3.addEventListener('click', function(e) { calculator.doExp(3); });
 
 })();
