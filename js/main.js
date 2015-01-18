@@ -32,6 +32,11 @@
       $btnExp2 = document.getElementsByClassName('exp2')[0];
       $btnExp3 = document.getElementsByClassName('exp3')[0];
       $btnExpX = document.getElementsByClassName('expx')[0];
+      $btnMemStore = document.getElementsByClassName('mem-store')[0];
+      $btnMemAdd = document.getElementsByClassName('mem-add')[0];
+      $btnMemSubtract = document.getElementsByClassName('mem-subtract')[0];
+      $btnMemRecall = document.getElementsByClassName('mem-recall')[0];
+      $btnMemClear = document.getElementsByClassName('mem-clear')[0];
 
   //=================== CALCULATION FUNCTIONS ==========================
   var calculator = {};
@@ -39,7 +44,7 @@
   calculator.heldValue = null;
   calculator.currentValue = null;
   calculator.currentTotal = 0;
-  calculator.memoryBank = [];
+  calculator.memory = 0;
   calculator.queuedOperation = null;
 
 
@@ -94,6 +99,24 @@
   calculator.myRootX = function(a, b) { return Math.pow(b, 1/a); }; //a(root)b
 
 
+  //--- Memory Functions
+  calculator.memStore = function() {
+    this.memory = this.currentValue;
+    console.log(this.currentValue + " stored to memory!");
+    calculator.clearDisplay();
+    };
+  calculator.memAdd = function() { this.memory += this.currentValue; };
+  calculator.memSubtract = function() { this.memory -= this.currentValue; };
+  calculator.memRecall = function() {
+    calculator.clearDisplay();
+    calculator.showNum(this.memory);
+  };
+  calculator.memClear = function() {
+    this.memory = 0;
+    calculator.clearDisplay();
+    console.log("Memory cleared!");
+  };
+
   //--- Display / Output
   calculator.showNum = function(n) {
     $display.value += n;
@@ -111,12 +134,14 @@
     $display.value = '';
     $displayHist.textContent = '';
   };
-  calculator.clearMemory = function() {
+  calculator.clearCache = function() {
     calculator.heldValue = null;
     calculator.currentValue = null;
     calculator.currentTotal = 0;
-    calculator.memoryBank = [];
     calculator.queuedOperation = null;
+  };
+  calculator.clearMemory = function() {
+    calculator.memoryBank = 0;
   };
   calculator.posNeg = function() {
     this.currentTotal = 0 - this.currentTotal;
@@ -178,6 +203,7 @@
   });
   $btnClear.addEventListener('click', function(e) {
     calculator.clearDisplay();
+    calculator.clearCache();
     calculator.clearMemory();
   });
   $btnEquals.addEventListener('click', function(e) { calculator.showTotal(); });
@@ -199,5 +225,10 @@
   $btnCubeRt.addEventListener('click', function(e) { calculator.doRoot(3); });
   $btnExp2.addEventListener('click', function(e) { calculator.doExp(2); });
   $btnExp3.addEventListener('click', function(e) { calculator.doExp(3); });
+  $btnMemStore.addEventListener('click', function(e) { calculator.memStore(); });
+  $btnMemAdd.addEventListener('click', function(e) { calculator.memAdd(); });
+  $btnMemSubtract.addEventListener('click', function(e) { calculator.memSubtract(); });
+  $btnMemRecall.addEventListener('click', function(e) { calculator.memRecall(); });
+  $btnMemClear.addEventListener('click', function(e) { calculator.memClear(); });
 
 })();
