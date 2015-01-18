@@ -32,6 +32,8 @@
       $btnExp2 = document.getElementsByClassName('exp2')[0];
       $btnExp3 = document.getElementsByClassName('exp3')[0];
       $btnExpX = document.getElementsByClassName('expx')[0];
+      $btnRandom = document.getElementsByClassName('random')[0];
+      //-- Memory
       $btnMemStore = document.getElementsByClassName('mem-store')[0];
       $btnMemAdd = document.getElementsByClassName('mem-add')[0];
       $btnMemSubtract = document.getElementsByClassName('mem-subtract')[0];
@@ -119,9 +121,13 @@
 
   //--- Display / Output
   calculator.showNum = function(n) {
-    $display.value += n;
+    $display.value = n;
     this.currentValue = +($display.value);
     console.log(this.currentValue);
+  };
+  calculator.appendNum = function(n) {
+    $display.value += n;
+    this.currentValue = +($display.value);
   };
   calculator.addToDisplayHist = function(val) {
     $displayHist.textContent += val + " ";
@@ -160,7 +166,7 @@
     this.showNum(1.6180339887);
   };
   calculator.addAvogadro = function() {
-    alert("That's a BIIIG number. Maybe try something else.");
+    alert("Silly chemist - go buy a real calculator!");
   };
   calculator.doSin = function() {
     this.showNum(Math.sin(this.currentValue));
@@ -192,11 +198,14 @@
   calculator.doExp = function(n) {
     this.showNum(Math.pow(this.currentValue, n));
   };
+  calculator.doRandom = function() {
+    this.showNum(Math.floor(Math.random() * this.currentValue));
+  };
 
   //===================== EVENT LISTENERS ==============================
   $display.addEventListener('input', function(e) { });
   Array.prototype.forEach.call($btnNumbers, function(el) {
-    el.addEventListener('click', function(e) { calculator.showNum(e.target.textContent); });
+    el.addEventListener('click', function(e) { calculator.appendNum(e.target.textContent); });
     });
   Array.prototype.forEach.call($btnOperators, function(el) {
     el.addEventListener('click', function(e) { calculator.getOperator(e); });
@@ -230,5 +239,6 @@
   $btnMemSubtract.addEventListener('click', function(e) { calculator.memSubtract(); });
   $btnMemRecall.addEventListener('click', function(e) { calculator.memRecall(); });
   $btnMemClear.addEventListener('click', function(e) { calculator.memClear(); });
+  $btnRandom.addEventListener('click', function(e) { calculator.doRandom(); });
 
 })();
